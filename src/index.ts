@@ -21,6 +21,8 @@ class WpJsonSeven extends Command {
 
         version: flags.version({char: 'v'}),
 
+        name: flags.string({char: 'e', description: 'Output schema entity base file name'}),
+
         help: flags.help({char: 'h'})
     }
 
@@ -28,8 +30,6 @@ class WpJsonSeven extends Command {
 
     async run() {
         const {args, flags} = this.parse(WpJsonSeven)
-
-        const insecure = flags.insecure || false
 
         const sourceResource = args.file as string
 
@@ -50,13 +50,13 @@ class WpJsonSeven extends Command {
             Object.assign(schema, await converter.readSchemaRootFile(args.file))
         }
 
-        return this.generateSchemaToFile(schema as IWpSchemaRoot, flags.route, flags.method, flags.output)
+        return this.generateSchemaToFile(schema as IWpSchemaRoot, flags.route, flags.method, flags.output, flags.name)
     }
 
-    generateSchemaToFile(schema: IWpSchemaRoot, route: string, method: string, outputDir?: string) {
+    generateSchemaToFile(schema: IWpSchemaRoot, route: string, method: string, outputDir?: string, entityName?: string) {
         const converter = new SchemaConverter()
 
-        const entityName = converter.entityNameFromRoute(route)
+        entityName = entityName || converter.entityNameFromRoute(route)
 
         if (!entityName) {
             return new Error('Could not retrieve route name')
