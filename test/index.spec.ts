@@ -3,22 +3,21 @@ import * as path from 'path'
 import {readFileSync} from 'fs'
 import SchemaConverter, {IWpSchemaRoot, IWpSchema} from '../src/schema-converter'
 import {JSONSchema7} from 'json-schema'
-import {config as readConfig} from 'dotenv'
+import readConfig from '../src/utils'
 
-const config = readConfig().parsed as { wp_test_site: string, https_insecure: string }
+const config = readConfig()
 
 describe('Read schema from WP JSON REST', async function () {
     const converter = new SchemaConverter()
 
     it('should request wp schema by URL', async function () {
-        const siteProp: keyof typeof config = 'wp_test_site'
-        const siteHttpsInsecureProp: keyof typeof config = 'https_insecure'
+        if (!expect(config.wp_schema_site).has.to.exist || !config.wp_schema_site) {
+            return
+        }
 
-        expect(config).to.has.property(siteProp).and.to.not.empty
+        const rejectUnauthorized = (config.wp_schema_insecure !== undefined) ? !config.wp_schema_insecure : undefined
 
-        const rejectUnauthorized = (config[siteHttpsInsecureProp] && typeof config[siteHttpsInsecureProp] === 'string') ? !JSON.parse(config[siteHttpsInsecureProp]) : undefined
-
-        const document = await converter.readSchemaURL(config[siteProp], {rejectUnauthorized})
+        const document = await converter.readSchemaURL(config.wp_schema_site, {rejectUnauthorized})
 
         expect(document).to.has.property('namespaces')
     })

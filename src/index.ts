@@ -1,6 +1,7 @@
 import path from 'path'
 import {Command, flags} from '@oclif/command'
 import SchemaConverter, {IWpSchemaRoot} from './schema-converter'
+import readConfig from './utils'
 
 class WpJsonSeven extends Command {
     static description = 'Convert WordPress JSON Schema REST endpoints to Json Schema 7'
@@ -17,7 +18,7 @@ class WpJsonSeven extends Command {
             options: ['POST', 'PUT', 'DELETE', 'GET']
         }),
 
-        insecure: flags.boolean({description: 'Request HTTPS site with self signed certificate', default: false}),
+        insecure: flags.boolean({description: 'Request HTTPS site with self signed certificate', default: undefined}),
 
         version: flags.version({char: 'v'}),
 
@@ -29,17 +30,29 @@ class WpJsonSeven extends Command {
     static args = [{name: 'file', description: 'Source schema file or WordPress URL'}]
 
     async run() {
+        const config = readConfig()
+
         const {args, flags} = this.parse(WpJsonSeven)
 
-        const sourceResource = args.file as string
+        const sourceResource = args.file as string || config.wp_schema_site
+
+        if (!sourceResource) {
+            const prop: keyof typeof config = 'wp_schema_site'
+
+            this.error(`Specify resource as argument otherwise use ".env" file with the entry "${prop}=http://example.com/wp-json/"`)
+
+            return
+        }
 
         const converter = new SchemaConverter()
 
         const schema: Partial<IWpSchemaRoot> = {}
 
+        const insecure = (flags.insecure === undefined) ? config.wp_schema_insecure : flags.insecure
+
         if (sourceResource.match(/^https?:/)) {
             try {
-                Object.assign(schema, await converter.readSchemaURL(sourceResource, {rejectUnauthorized: !flags.insecure}))
+                Object.assign(schema, await converter.readSchemaURL(sourceResource, {rejectUnauthorized: !insecure}))
             } catch (e) {
                 e = e instanceof Error ? e.message : e
 
