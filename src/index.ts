@@ -39,7 +39,7 @@ class WpJsonSeven extends Command {
 
         if (sourceResource.match(/^https?:/)) {
             try {
-                Object.assign(schema, await converter.readSchemaURL(sourceResource, {rejectUnauthorized: flags.insecure}))
+                Object.assign(schema, await converter.readSchemaURL(sourceResource, {rejectUnauthorized: !flags.insecure}))
             } catch (e) {
                 e = e instanceof Error ? e.message : e
 
