@@ -40,11 +40,12 @@ type TSourceTypes = 'string' | 'integer' | 'date-time' | 'time' | 'date' | 'arra
 function sourceTypeToSchema7(type?: TSourceTypes): Pick<JSONSchema7, 'type' | 'format'> {
     type = type || 'mixed'
 
-    const convertingTypes: { [key in Extract<TSourceTypes, 'date-time' | 'time' | 'date' | 'mixed'>]: Pick<JSONSchema7, 'type' | 'format'> } = {
+    const convertingTypes: { [key in Extract<TSourceTypes, 'date-time' | 'time' | 'date' | 'mixed' | 'integer'>]: Pick<JSONSchema7, 'type' | 'format'> } = {
         'date-time': {type: 'string', format: 'date-time'},
         'time': {type: 'string', format: 'time'},
         'date': {type: 'string', format: 'date'},
-        'mixed': {type: ['array', 'boolean', 'integer', 'null', 'number', 'object', 'string']}
+        'mixed': {type: ['array', 'boolean', 'integer', 'null', 'number', 'object', 'string']},
+        'integer': {type: ['number', 'null']}
     }
 
     if (convertingTypes.hasOwnProperty(type)) {
