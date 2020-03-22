@@ -1,0 +1,57 @@
+{
+  "name": "wp-json-seven",
+  "description": "Convert WordPress JSON Schema REST endpoints to Json Schema 7",
+  "version": "1.0.0",
+  "author": "Alex Batalov @radist2s",
+  "bin": {
+    "wp-json-seven": "./bin/run"
+  },
+  "bugs": "https://github.com/radist2s/wp-json-seven/issues",
+  "dependencies": {
+    "@oclif/command": "^1.5.19",
+    "@oclif/config": "^1.14.0",
+    "@oclif/plugin-help": "^2.2.3",
+    "@types/json-schema": "^7.0.4",
+    "@types/lodash": "^4.14.149",
+    "@types/request": "^2.48.4",
+    "fake-useragent": "^1.0.1",
+    "lodash": "^4.17.15",
+    "request": "^2.88.2",
+    "tslib": "^1.11.1"
+  },
+  "devDependencies": {
+    "@oclif/dev-cli": "^1.22.2",
+    "@oclif/test": "^1.2.5",
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^10.17.17",
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0",
+    "nyc": "^14.1.1",
+    "ts-node": "^8.8.1",
+    "typescript": "^3.8.3"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/bin",
+    "/lib"
+  ],
+  "homepage": "https://github.com/radist2s/wp-json-seven",
+  "keywords": [
+    "oclif"
+  ],
+  "license": "MIT",
+  "main": "lib/index.js",
+  "oclif": {
+    "bin": "wp-json-seven"
+  },
+  "repository": "radist2s/wp-json-seven",
+  "scripts": {
+    "prepack": "rm -rf lib && tsc -b && oclif-dev readme",
+    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.spec.ts\"",
+    "version": "oclif-dev readme && git add README.md"
+  },
+  "types": "lib/index.d.ts"
+}
