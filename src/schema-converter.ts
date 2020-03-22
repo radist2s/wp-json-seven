@@ -71,6 +71,10 @@ export default class SchemaConverter {
                     return reject(err)
                 }
 
+                if (!body || !Object.keys(body).length) {
+                    return reject(new Error('No JSON data found'))
+                }
+
                 return resolve(body)
             })
         })
