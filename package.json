@@ -1,12 +1,17 @@
 {
-  "name": "wp-json-seven",
+  "name": "@radist2s/wp-json-seven",
   "description": "Convert WordPress JSON Schema REST endpoints to Json Schema 7",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Alex Batalov @radist2s",
   "bin": {
-    "wp-json-seven": "./bin/run"
+    "wp-json-seven": "bin/run"
   },
-  "bugs": "https://github.com/radist2s/wp-json-seven/issues",
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/radist2s/wp-json-seven/issues"
+  },
   "dependencies": {
     "@oclif/command": "^1.5.19",
     "@oclif/config": "^1.14.0",
@@ -48,11 +53,17 @@
   "oclif": {
     "bin": "wp-json-seven"
   },
-  "repository": "radist2s/wp-json-seven",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/radist2s/wp-json-seven.git"
+  },
   "scripts": {
     "prepack": "rm -rf lib && tsc -b && oclif-dev readme",
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.spec.ts\"",
     "version": "oclif-dev readme && git add README.md"
   },
-  "types": "lib/index.d.ts"
+  "types": "lib/index.d.ts",
+  "directories": {
+    "test": "test"
+  }
 }
