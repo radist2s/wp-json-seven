@@ -1,7 +1,7 @@
 {
   "name": "@radist2s/wp-json-seven",
   "description": "Convert WordPress JSON Schema REST endpoints to Json Schema 7",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Alex Batalov @radist2s",
   "bin": {
     "wp-json-seven": "bin/run"
