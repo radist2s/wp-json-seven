@@ -15,7 +15,7 @@ $ npm install -g @radist2s/wp-json-seven
 $ wp-json-seven COMMAND
 running command...
 $ wp-json-seven (-v|--version|version)
-@radist2s/wp-json-seven/1.0.1 darwin-x64 node-v12.8.0
+@radist2s/wp-json-seven/1.0.2 darwin-x64 node-v12.8.0
 $ wp-json-seven --help [COMMAND]
 USAGE
   $ wp-json-seven COMMAND
