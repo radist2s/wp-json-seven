@@ -1,6 +1,6 @@
 import path from 'path'
 import {Command, flags} from '@oclif/command'
-import SchemaConverter, {IWpSchemaRoot} from './schema-converter'
+import SchemaConverter, {IWpSchemaRoot, TWpRestHttpMethods} from './schema-converter'
 import readConfig from './utils'
 
 class WpJsonSeven extends Command {
@@ -14,8 +14,8 @@ class WpJsonSeven extends Command {
         method: flags.enum({
             char: 'm',
             description: 'Specify route to convert',
-            default: 'POST',
-            options: ['POST', 'PUT', 'DELETE', 'GET']
+            default: 'POST' as TWpRestHttpMethods,
+            options: ['POST', 'PUT', 'DELETE', 'GET'] as TWpRestHttpMethods[]
         }),
 
         insecure: flags.boolean({description: 'Request HTTPS site with self signed certificate', default: undefined}),
@@ -66,7 +66,7 @@ class WpJsonSeven extends Command {
         return this.generateSchemaToFile(schema as IWpSchemaRoot, flags.route, flags.method, flags.output, flags.name)
     }
 
-    generateSchemaToFile(schema: IWpSchemaRoot, route: string, method: string, outputDir?: string, entityName?: string) {
+    generateSchemaToFile(schema: IWpSchemaRoot, route: string, method: TWpRestHttpMethods, outputDir?: string, entityName?: string) {
         const converter = new SchemaConverter()
 
         entityName = entityName || converter.entityNameFromRoute(route)
@@ -75,7 +75,7 @@ class WpJsonSeven extends Command {
             return new Error('Could not retrieve route name')
         }
 
-        const routeSchemaArgs = converter.getSchemaRoute(schema, route)
+        const routeSchemaArgs = converter.getSchemaRoute(schema, route, method)
 
         if (!routeSchemaArgs) {
             return new Error('No route args found')

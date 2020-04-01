@@ -38,7 +38,13 @@ describe('Generate Schema', async function () {
         expect(wpRootSchema).to.not.be.empty
     })
 
-    it('should find route', function () {
+    it('should find GET route', function () {
+        const schema = converter.getSchemaRoute(converter.readSchemaRootFile(inputWpSchemaFilePath) as IWpSchemaRoot, '/wc/v3/products', 'GET')
+
+        expect(schema).to.not.be.empty
+    })
+
+    it('should find POST route', function () {
         Object.assign(wpRouteArgs, converter.getSchemaRoute(wpRootSchema as IWpSchemaRoot, '/wc/v3/products/(?P<id>[\\d]+)', 'POST'))
 
         expect(wpRouteArgs).to.not.be.empty

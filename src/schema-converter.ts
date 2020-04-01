@@ -3,7 +3,7 @@ import {JSONSchema7, JSONSchema7TypeName} from 'json-schema'
 import {intersection as _intersection} from 'lodash'
 import request from 'request'
 
-type TWpRestHttpMethods = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
+export type TWpRestHttpMethods = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
 
 export interface IWpSchemaRoot {
     name: string
